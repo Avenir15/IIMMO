@@ -4,8 +4,16 @@ from sklearn.preprocessing import MinMaxScaler
 # === 1. Загрузка данных ===
 train_df = pd.read_csv(r"C:\Users\aveni\OneDrive\Desktop\UU\train.csv")
 
+
 print("Исходные размеры:")
 print(f"Train: {train_df.shape}")
+
+print("=== ПЕРВЫЕ СТРОКИ ===")
+print(train_df.head())
+print(train_df.info())
+print("\n=== ПРОПУСКИ ДО ОБРАБОТКИ ===")
+print(train_df.isnull().sum())
+
 
 
 # === 2. Функция обработки данных ===
@@ -24,17 +32,22 @@ def process_dataset(df, name="dataset"):
             else:
                 df_processed[col] = df_processed[col].fillna(df_processed[col].mode()[0])
                 print(f"Заполнены пропуски в категориальной колонке: {col}")
+                
+    print("\n=== ПРОПУСКИ ПОСЛЕ ОБРАБОТКИ ===")
+    print(df_processed.isnull().sum())
+
 
     # --- 2.2 Нормализация числовых данных ---
     numeric_cols = df_processed.select_dtypes(include='number').columns.tolist()
 
-    exclude_cols = ['PassengerId', 'Transported']
-    numeric_cols_to_scale = [col for col in numeric_cols if col not in exclude_cols]
+    numeric_cols_to_scale = ['Age', 'Fare']
 
     if numeric_cols_to_scale:
         scaler = MinMaxScaler()
         df_processed[numeric_cols_to_scale] = scaler.fit_transform(df_processed[numeric_cols_to_scale])
         print(f"Нормализованы числовые колонки: {numeric_cols_to_scale}")
+    print("=== ПЕРВЫЕ СТРОКИ ===")
+    print(df_processed.head())
 
     # --- 2.3 Определение категориальных колонок ---
     categorical_cols = df_processed.select_dtypes(exclude=['number', 'bool']).columns.tolist()
@@ -54,10 +67,11 @@ def process_dataset(df, name="dataset"):
     categorical_cols = [col for col in categorical_cols if col != 'PassengerId']
 
     if categorical_cols:
-        df_processed = pd.get_dummies(df_processed, columns=categorical_cols, drop_first=True)
+        df_processed = pd.get_dummies(df_processed, columns=categorical_cols, drop_first=False)
         print(f"One-Hot Encoding применён к колонкам: {categorical_cols}")
 
     print(f"Финальный размер {name}: {df_processed.shape}")
+    print(df_processed.info())
 
     return df_processed
 
