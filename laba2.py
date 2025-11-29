@@ -12,12 +12,12 @@ from sklearn.metrics import (
 df = pd.read_csv(r"C:\Users\aveni\OneDrive\Desktop\UU\lab1\processed_train.csv")
 
 # ========================== ЛИНЕЙНАЯ РЕГРЕССИЯ ==========================
-# Предсказываем возраст
+# Предсказываем цену билета 
 
 print("\n----- Линейная регрессия -----")
 
-X_reg = df.drop(['Age', 'Survived'], axis=1)   # Убираем таргет и то, что мешает
-y_reg = df['Age']
+X_reg = df.drop(['Fare', 'Survived'], axis=1)   # Убираем таргет и то, что мешает
+y_reg = df['Fare']
 
 # Разделение на выборки
 X_train, X_test, y_train, y_test = train_test_split(
@@ -41,7 +41,10 @@ print(f"Средняя абсолютная ошибка: {mean_absolute_error(y
 
 print("\n----- Логистическая регрессия -----")
 
-X_clf = df.drop(['Survived', 'Age'], axis=1)  # Убираем признаки, которые нельзя использовать
+
+
+
+X_clf = df.drop(['Survived'], axis=1)  # Убираем признаки, которые нельзя использовать
 y_clf = df['Survived']
 
 # Разделение
@@ -50,7 +53,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 # Модель
-clf_model = LogisticRegression(max_iter=500)
+clf_model = LogisticRegression(max_iter=1000)
 clf_model.fit(X_train, y_train)
 
 # Предсказание
