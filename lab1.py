@@ -37,24 +37,19 @@ def process_dataset(df, name="dataset"):
     print(df_processed.isnull().sum())
 
     # --- 2.4 Нормализация числовых данных ---
-    numeric_cols_to_scale = ['mpg', 'displacement', 'horsepower', 'weight', 'model year']
+    numeric_cols_to_scale = [ 'displacement', 'horsepower', 'weight']
     scaler = MinMaxScaler()
     df_processed[numeric_cols_to_scale] = scaler.fit_transform(df_processed[numeric_cols_to_scale])
     print(f"Нормализованы числовые колонки: {numeric_cols_to_scale}")
 
-    # --- 2.5 Дискретизация acceleration ---
-    df_processed['acceleration_cat'] = pd.qcut(
-        df_processed['acceleration'],
-        q=3,
-        labels=['slow', 'medium', 'fast']
-    )
+    
 
     # --- 2.6 Преобразование origin в текстовые категории ---
     origin_map = {1: 'USA', 2: 'Europe', 3: 'Japan'}
     df_processed['origin'] = df_processed['origin'].map(origin_map)
 
     # --- 2.7 One-Hot Encoding для категориальных признаков ---
-    categorical_cols = ['acceleration_cat', 'origin']
+    categorical_cols = [ 'origin']
     df_processed = pd.get_dummies(df_processed, columns=categorical_cols, drop_first=False)
     print(f"One-Hot Encoding применён к колонкам: {categorical_cols}")
 
