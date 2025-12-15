@@ -6,7 +6,7 @@ from sklearn.tree import DecisionTreeRegressor, DecisionTreeClassifier, plot_tre
 from sklearn.metrics import (
     mean_absolute_error, mean_squared_error, root_mean_squared_error,
     accuracy_score, precision_score, recall_score, f1_score,
-    roc_curve, auc, confusion_matrix
+    roc_curve, auc, confusion_matrix, r2_score
 )
 
 
@@ -38,7 +38,7 @@ y_pred_r = regressor.predict(X_test_r)
 print(f"Среднеквадратичная ошибка: {mean_squared_error(y_test_r, y_pred_r)}")
 print(f"Корень среднеквадратичной ошибки: {root_mean_squared_error(y_test_r, y_pred_r)}")
 print(f"Средняя абсолютная ошибка: {mean_absolute_error(y_test_r, y_pred_r)}")
-
+print (f"R2: {r2_score(y_test_r, y_pred_r)}")
 # Дерево регрессии
 plt.figure(figsize=(20, 10))
 plot_tree(regressor, filled=True, feature_names=X_reg.columns)
