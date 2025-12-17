@@ -21,8 +21,8 @@ X_train, X_test, y_train, y_test = train_test_split(
 # ==================== RANDOM FOREST + OOB ====================
 
 rf = RandomForestClassifier(
-    n_estimators=200,
-    max_depth=5,
+    n_estimators=120,
+    max_depth=8,
     oob_score=True,
     random_state=42
 )
@@ -42,7 +42,7 @@ print("F1:", f1_score(y_test, y_pred_rf))
 
 ada = AdaBoostClassifier(
     n_estimators=200,
-    learning_rate=0.5,
+    learning_rate=0.6,
     random_state=42
 )
 
@@ -58,9 +58,9 @@ print("F1:", f1_score(y_test, y_pred_ada))
 # ==================== GRADIENT BOOSTING ====================
 
 gb = GradientBoostingClassifier(
-    n_estimators=200,
+    n_estimators=150,
     learning_rate=0.1,
-    max_depth=3,
+    max_depth=5,
     random_state=42
 )
 
